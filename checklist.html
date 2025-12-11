@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CINES - Fluxo de Pré-Solicitação</title>
+    <!-- favicon usando a imagem da pasta imagens -->
+    <link rel="icon" href="imagens/Image_fx%20(3)%20(1).png" type="image/png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        .flow-section {
+            padding: 60px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flow-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .flow-title h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .flow-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .flow-card::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .flow-card:nth-child(2)::after {
+            content: '↓';
+            right: auto;
+            left: 50%;
+            top: auto;
+            bottom: -50px;
+            transform: translateX(-50%);
+        }
+
+        .flow-card:nth-child(4)::after {
+            display: none;
+        }
+
+        .flow-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+
+        .flow-card h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .flow-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .checklist-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .checklist-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .checklist-header h2 {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+            margin-top: 2px;
+        }
+
+        .checklist-content strong {
+            display: block;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .checklist-content small {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        @media (max-width: 768px) {
+            .flow-grid,
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-card::after {
+                content: '↓';
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -50px;
+                transform: translateX(-50%);
+            }
+
+            .flow-card:last-child::after {
+                display: none;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a class="logo" href="#">
+                <img src="imagens/Image_fx%20(3)%20(1).png" alt="ícone" />
+                <h1>CINES</h1>
+            </a>
+            <!-- imagem adicional à direita do logo (posição marcada) -->
+            <div class="header-mid">
+              <a href="https://secult.es.gov.br" target="_blank" rel="noopener noreferrer">
+                <img src="imagens/etx.png" alt="Secretaria de Cultura do ES" />
+              </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="historia.html">Nossa História</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="flow-section">
+                <div class="flow-title">
+                    <h1>Pilar 3: Fluxo de Pré-Solicitação</h1>
+                </div>
+
+                <div class="flow-grid">
+                    <div class="flow-card">
+                        <div class="flow-icon">🛍️</div>
+                        <h2>Cadastro da Obra</h2>
+                        <p>Dados da produtora e informações básicas do projeto</p>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-icon">🗺️</div>
+                        <h2>Escolha de Locações</h2>
+                        <p>Seleção de cenários no catálogo inteligente</p>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-icon">📋</div>
+                        <h2>Checklist Gerado</h2>
+                        <p>Documentação necessária identificada automaticamente</p>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-icon">⬇️</div>
+                        <h2>Pré-Formulário</h2>
+                        <p>Geração de documento padronizado para download</p>
+                    </div>
+                </div>
+
+                <div class="checklist-section">
+                    <div class="checklist-header">
+                        <h2>✅ Checklist de Documentação</h2>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressBar"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">0% Completo (0/12 itens)</div>
+                    </div>
+
+                    <div class="checklist-grid">
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Dados da Produtora</strong>
+                                <small>CNPJ, razão social e responsável legal</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Informações do Projeto</strong>
+                                <small>Sinopse, gênero e formato da produção</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Cronograma de Filmagem</strong>
+                                <small>Datas previstas e duração das gravações</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Equipe Técnica</strong>
+                                <small>Lista de profissionais envolvidos</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Seguro de Produção</strong>
+                                <small>Apólice de seguro vigente</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Autorização de Imagem</strong>
+                                <small>Modelo para figurantes e locais</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Plano de Segurança</strong>
+                                <small>Medidas de segurança durante gravação</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Licenças Ambientais</strong>
+                                <small>Para áreas de preservação (se aplicável)</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Autorização de Trânsito</strong>
+                                <small>Para bloqueio de vias (se necessário)</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Comprovante de Pagamento</strong>
+                                <small>Taxa de locação (quando aplicável)</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Planta Técnica</strong>
+                                <small>Layout de equipamentos e estrutura</small>
+                            </div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleCheck(this)">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <div class="checklist-content">
+                                <strong>Contato de Emergência</strong>
+                                <small>Responsável disponível 24h</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="resetChecklist()">🔄 Resetar</button>
+                        <button class="btn btn-primary" onclick="downloadForm()">📥 Baixar Formulário</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <small>© CINES — Todos os direitos reservados.</small>
+        </footer>
+    </div>
+
+    <script>
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${percentage}% Completo (${checked}/${total} itens)`;
+        }
+
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            updateProgress();
+        }
+
+        function downloadForm() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('⚠️ Marque pelo menos um item antes de baixar!');
+                return;
+            }
+
+            // Coletar itens selecionados
+            const items = [];
+            checkboxes.forEach(cb => {
+                const content = cb.parentElement.querySelector('.checklist-content');
+                const title = content.querySelector('strong').textContent;
+                const desc = content.querySelector('small').textContent;
+                items.push({ title, desc });
+            });
+
+            // Gerar documento HTML
+            const html = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pré-Formulário CINES - Solicitação de Locação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .field {
+            margin-bottom: 20px;
+        }
+        .field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .checkbox-list {
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            margin: 8px 0;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        @media print {
+            body { margin: 20px; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎬 CINES</h1>
+        <p><strong>Cinema & Innovation Network of Espírito Santo</strong></p>
+        <p>Pré-Formulário de Solicitação de Locação</p>
+        <p style="font-size: 0.9em; color: #666;">Data de Geração: ${new Date().toLocaleDateString('pt-BR')}</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Dados da Produtora</h2>
+        <div class="field">
+            <label>Nome da Produtora:</label>
+            <input type="text" placeholder="Digite o nome da produtora">
+        </div>
+        <div class="field">
+            <label>CNPJ:</label>
+            <input type="text" placeholder="00.000.000/0000-00">
+        </div>
+        <div class="field">
+            <label>Responsável Legal:</label>
+            <input type="text" placeholder="Nome completo">
+        </div>
+        <div class="field">
+            <label>E-mail:</label>
+            <input type="email" placeholder="email@produtora.com">
+        </div>
+        <div class="field">
+            <label>Telefone:</label>
+            <input type="tel" placeholder="(00) 00000-0000">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Informações do Projeto</h2>
+        <div class="field">
+            <label>Título do Projeto:</label>
+            <input type="text" placeholder="Nome da produção">
+        </div>
+        <div class="field">
+            <label>Formato:</label>
+            <select>
+                <option value="">Selecione...</option>
+                <option value="filme">Filme / Longa-metragem</option>
+                <option value="curta">Curta-metragem</option>
+                <option value="serie">Série</option>
+                <option value="documentario">Documentário</option>
+                <option value="comercial">Comercial</option>
+                <option value="clipe">Clipe Musical</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Gênero:</label>
+            <input type="text" placeholder="Drama, Comédia, Ação, etc.">
+        </div>
+        <div class="field">
+            <label>Sinopse (breve):</label>
+            <textarea placeholder="Descreva brevemente o projeto..."></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Locações Solicitadas</h2>
+        <div class="field">
+            <label>Locação 1:</label>
+            <input type="text" placeholder="Nome da locação">
+        </div>
+        <div class="field">
+            <label>Locação 2:</label>
+            <input type="text" placeholder="Nome da locação (opcional)">
+        </div>
+        <div class="field">
+            <label>Locação 3:</label>
+            <input type="text" placeholder="Nome da locação (opcional)">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Cronograma</h2>
+        <div class="field">
+            <label>Data de Início das Filmagens:</label>
+            <input type="date">
+        </div>
+        <div class="field">
+            <label>Data de Término:</label>
+            <input type="date">
+        </div>
+        <div class="field">
+            <label>Período de Filmagem:</label>
+            <div class="checkbox-list">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="manha"> <label for="manha" style="display: inline;">Manhã</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="tarde"> <label for="tarde" style="display: inline;">Tarde</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="noite"> <label for="noite" style="display: inline;">Noite</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="madrugada"> <label for="madrugada" style="display: inline;">Madrugada</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Documentação Necessária</h2>
+        <p><strong>Itens selecionados no checklist (${items.length}):</strong></p>
+        <div class="checkbox-list">
+            ${items.map((item, index) => `
+            <div class="checkbox-item">
+                <input type="checkbox" id="doc${index}" checked>
+                <label for="doc${index}" style="display: inline;">
+                    <strong>${item.title}</strong> - ${item.desc}
+                </label>
+            </div>
+            `).join('')}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Equipe Técnica Prevista</h2>
+        <div class="field">
+            <label>Número de Pessoas na Equipe:</label>
+            <input type="number" placeholder="Ex: 15">
+        </div>
+        <div class="field">
+            <label>Diretor(a):</label>
+            <input type="text">
+        </div>
+        <div class="field">
+            <label>Produtor(a) Executivo:</label>
+            <input type="text">
+        </div>
+        <div class="field">
+            <label>Diretor(a) de Fotografia:</label>
+            <input type="text">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Observações Adicionais</h2>
+        <div class="field">
+            <textarea placeholder="Informações adicionais relevantes para a solicitação..."></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Declaração</h2>
+        <p style="text-align: justify;">
+            Declaro que todas as informações fornecidas são verdadeiras e que me comprometo a seguir 
+            todas as normas e regulamentos estabelecidos para uso das locações. Responsabilizo-me 
+            integralmente pela equipe e equipamentos durante o período de filmagem, bem como pela 
+            contratação de seguros adequados.
+        </p>
+        <div class="field" style="margin-top: 30px;">
+            <label>Assinatura do Responsável:</label>
+            <div style="border-bottom: 1px solid #000; width: 300px; margin-top: 40px;"></div>
+        </div>
+        <div class="field">
+            <label>Data:</label>
+            <input type="date" style="width: 200px;">
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>CINES - Cinema & Innovation Network of Espírito Santo</strong></p>
+        <p>Este formulário deve ser preenchido e enviado junto com a documentação solicitada</p>
+        <p style="margin-top: 20px;">
+            <button onclick="window.print()" class="no-print" style="padding: 10px 30px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                🖨️ Imprimir Formulário
+            </button>
+        </p>
+    </div>
+</body>
+</html>`;
+
+            // Criar Blob e fazer download
+            try {
+                const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Pre-Formulario-CINES-${new Date().getTime()}.html`;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                
+                // Pequeno delay antes de limpar
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                alert(`✅ Formulário gerado com sucesso!\n\n📄 ${items.length} itens incluídos\n\n💾 Arquivo HTML baixado - você pode preencher digitalmente ou imprimir`);
+            } catch (error) {
+                console.error('Erro ao gerar download:', error);
+                
+                // Fallback: abrir em nova janela
+                const newWindow = window.open('', '_blank');
+                if (newWindow) {
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+                    alert('✅ Formulário aberto em nova janela!\n\nUse Ctrl+S ou Cmd+S para salvar o arquivo.');
+                } else {
+                    alert('❌ Erro ao gerar o formulário.\nVerifique se o bloqueador de pop-ups está desativado.');
+                }
+            }
+        }
+
+        updateProgress();
+    </script>
+</body>
+</html>

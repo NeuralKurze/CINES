@@ -1,0 +1,402 @@
+/* Variáveis de tema (cores e gradiente) */
+:root {
+    --blue: #0b6eff; /* azul principal */
+    --pink: #ff69b4; /* rosa de destaque */
+    --white: #ffffff; /* branco puro usado como fundo */
+    --bg-gradient: linear-gradient(135deg, var(--blue) 0%, #7ec8ff 40%, var(--pink) 100%); /* gradiente composto */
+}
+
+/* Reset básico de box model */
+* { box-sizing: border-box; }
+
+/* Define altura total e fonte base para a página */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; /* fonte fallback */
+    color: #164e83; /* cor padrão do texto */
+}
+
+/* fundo branco conforme solicitado e cor do texto */
+body {
+    background: var(--white);
+    color: #073158;
+}
+
+/* Container central com largura máxima e padding lateral */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 1rem;
+}
+
+/* Cabeçalho fixo no topo com sombra e espaçamento entre itens */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0;
+    background: var(--white);
+    padding: 0.75rem 1rem;
+    box-shadow: 0 6px 18px rgba(9, 51, 90, 0.06); /* sombra sutil */
+    position: fixed; /* fica fixo no topo */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50; /* fica acima do conteúdo */
+}
+
+/* Link do logo alinhado com ícone e texto */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+    margin: 0 auto;
+}
+
+/* Estilo da imagem do logo */
+.logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px; /* bordas arredondadas */
+    background: transparent;
+    box-shadow: none; /* remove sombras indesejadas */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+
+/* Efeito de clique/toque no logo */
+
+
+/* Título do logo */
+.logo h1 {
+    font-size: 1.05rem;
+    margin: 0;
+    letter-spacing: 0.4px;
+    color: #120c63;
+}
+
+/* Lista de navegação horizontal */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+/* Links de navegação - padding e efeito de transição */
+nav a {
+    color: #03203a;
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: background .12s ease, transform .08s ease;
+}
+
+/* Efeito hover nos links (fundo leve e leve elevação) */
+nav a:hover {
+    background: rgba(11,110,255,0.06);
+    transform: translateY(-2px);
+}
+
+/* Posiciona o nav à direita mantendo o logo centralizado */
+nav {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Área média do header com imagem próxima ao centro */
+.header-mid {
+    position: absolute;
+    left: 60%;
+    top: 50%;
+    transform: translate(72px, -50%); /* ajusta deslocamento em relação ao centro */
+    display: flex;
+    align-items: center;
+}
+
+/* Imagem na área média do header */
+.header-mid img {
+    width: 96px;
+    height: auto;
+    max-height: 96px;
+    object-fit: contain;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 9px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    transform: translateX(-100px); /* Puxa 10px para a esquerda */
+}
+/* Efeito hover na imagem do header-mid */
+.header-mid img:hover {
+    
+    filter: drop-shadow(0 4px 12px rgba(11, 110, 255, 0.3));
+}
+
+/* Efeito de clique/toque na imagem do header-mid */
+.header-mid img:active {
+    transform: scale(0.95) rotate(0deg);
+    filter: none;
+}
+
+/* Bloco principal (hero) com fundo branco, bordas arredondadas e sombra */
+.hero {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(4,24,48,0.06);
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* Caixa do ícone grande com gradiente e arredondamento */
+.icon {
+    width: 160px;
+    height: 160px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg,var(--blue),var(--pink));
+    box-shadow: 0 8px 30px rgba(0, 5, 12, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efeito hover no container do ícone */
+.icon:hover {
+    transform: scale(1.08) rotate(-3deg);
+    box-shadow: 0 15px 50px rgba(11, 110, 255, 0.3);
+    filter: brightness(1.15);
+}
+
+/* Efeito de clique/toque no container do ícone */
+.icon:active {
+    transform: scale(0.95) rotate(0deg);
+    box-shadow: 0 4px 15px rgba(0, 5, 12, 0.2);
+    filter: brightness(1);
+}
+
+/* Imagem dentro do ícone - mantém proporção e canto arredondado */
+.icon img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+    background: transparent;
+    padding: 0;
+}
+
+/* Efeito hover na imagem do ícone */
+.icon img:hover {
+    transform: scale(1.1) rotate(-5deg);
+    filter: brightness(1.15) contrast(1.1);
+}
+
+/* Efeito de clique/toque na imagem do ícone */
+.icon img:active {
+    transform: scale(0.95) rotate(0deg);
+    filter: brightness(1);
+}
+
+/* Conteúdo principal do hero (texto) */
+.content {
+    min-width: 0; /* evita overflow em textos flexíveis */
+}
+
+/* Cabeçalho do conteúdo sem margem superior */
+.content h2 {
+    margin-top: 0;
+}
+
+/* Container da imagem lateral (coluna direita) */
+.side-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo da imagem lateral: responsiva, sombras e bordas arredondadas */
+.side-image img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(5,32,58,0.06);
+    border: none;
+    background: transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efeito hover na imagem lateral */
+.side-image img:hover {
+    transform: scale(1.08) rotate(2deg);
+    box-shadow: 0 15px 45px rgba(255, 105, 180, 0.2);
+    filter: brightness(1.1);
+}
+
+/* Efeito de clique/toque na imagem lateral */
+.side-image img:active {
+    transform: scale(0.95) rotate(0deg);
+    box-shadow: 0 4px 15px rgba(5,32,58,0.1);
+}
+
+/* Títulos e parágrafos dentro do hero */
+.hero h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.75rem;
+    color: #03203a;
+}
+.hero p {
+    margin: 0;
+    color: #3b5566;
+}
+
+/* Grupo de cards abaixo do hero com espaçamento */
+.cards {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+/* Estilo individual de cada card com gradiente sutil e padding */
+.card {
+    background: linear-gradient(180deg, rgba(11,110,255,0.05), rgba(255,105,180,0.04));
+    padding: 1rem;
+    border-radius: 12px;
+    flex: 1; /* cards crescem igualmente */
+}
+
+/* Rodapé simples com texto de cor secundária */
+.footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #6b7280;
+}
+
+/* Regras para telas menores (responsividade) */
+@media (max-width: 760px) {
+    .hero {
+        flex-direction: column; /* imagem acima do texto em mobile */
+        text-align: center;
+        padding: 1.25rem;
+    }
+    .rafaoo {
+        max-width: 100%;
+        width: 100%;
+    }
+    .hero-content {
+        width: 100%;
+    }
+    nav ul {
+        display: none; /* esconde itens de navegação em mobile (pode ser substituído por um menu hamburguer) */
+    }
+}
+
+/* Compensação do padding-top para o header fixo em todas as larguras */
+@media (min-width: 0px) {
+    .container {
+        padding-top: 84px; /* espaço para o header fixo */
+    }
+}
+
+/* Container das imagens lado a lado */
+.hero-images {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+
+/* Bloco de imagem com texto */
+.image-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Estilo para a imagem rafao.png */
+.rafaoo {
+    width: 300px;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px; /* bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* sombra sutil */
+    object-fit: cover; /* mantém a proporção da imagem */
+    border: 2px solid #ffffff; /* borda azul */
+    flex-shrink: 0; /* evita que a imagem diminua */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efeito hover na imagem */
+.rafaoo:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 12px 35px rgba(11, 110, 255, 0.25);
+    border-color: var(--blue);
+}
+
+/* Efeito de clique/toque na imagem */
+.rafaoo:active {
+    transform: scale(0.98) translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Texto pequeno abaixo de cada imagem */
+.image-text {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #3b5566;
+    max-width: 300px;
+}
+
+/* Conteúdo do hero (texto à direita) */
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.hero-content h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    color: #03203a;
+}
+
+.hero-content h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #3b5566;
+}
+
+.hero-content p {
+    margin: 0 0 1.2rem 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #3b5566;
+    text-align: justify;
+}
+
+.hero-content p:last-child {
+    margin-bottom: 0;
+}

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Locação - CINES</title>
+    <link rel="icon" href="imagens/Image_fx%20(3)%20(1).png" type="image/png" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #210125 0%, #22010b 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .nav-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+
+        .nav-back a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-back a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .form-content {
+            padding: 50px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #b91646);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            color: #e94560;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #e94560;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        label .required {
+            color: #e94560;
+            font-weight: 700;
+        }
+
+        label .hint {
+            font-weight: 400;
+            color: #888;
+            font-size: 0.85em;
+            margin-left: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #fafafa;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #e94560;
+            box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: #e9ecef;
+            transform: translateX(3px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #e94560;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #e94560;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        button {
+            flex: 1;
+            padding: 18px 35px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #e94560 0%, #b91646 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 100%);
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 5px solid #e94560;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+            color: #666;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .info-box::before {
+            content: "";
+            font-size: 1.5em;
+        }
+
+        .image-upload {
+            border: 3px dashed #e94560;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            background: linear-gradient(135deg, #ffe8ec 0%, #ffd4dd 100%);
+            border-color: #b91646;
+            transform: scale(1.02);
+        }
+
+        .image-upload input[type="file"] {
+            display: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .form-content {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav-back">
+                <a href="index.html">← Voltar</a>
+            </div>
+            <div class="header-content">
+                <h1>🎬 CINES</h1>
+                <p><strong>Cinema & Innovation Network of Espírito Santo</strong></p>
+                <p style="margin-top: 10px; font-size: 0.95em;">Cadastro de Locações Cinematográficas</p>
+            </div>
+        </div>
+
+        <div class="form-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                ✅ Locação cadastrada com sucesso no banco de dados!
+            </div>
+
+            <form id="formLocacao" action="processar_locacao.php" method="POST" enctype="multipart/form-data">
+                
+                <!-- SEÇÃO 1: INFORMAÇÕES BÁSICAS -->
+                <div class="section-title">📋 Informações Básicas</div>
+                
+                <div class="form-group">
+                    <label for="nome">Nome da Locação <span class="required">*</span></label>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: Praia de Itaúnas, Teatro Carlos Gomes, Convento da Penha">
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição Completa <span class="required">*</span></label>
+                    <textarea id="descricao" name="descricao" required placeholder="Descreva detalhadamente a locação: características visuais, potencial cinematográfico, história do local, facilidades para produção audiovisual..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categoria">Categoria <span class="required">*</span></label>
+                        <select id="categoria" name="id_categoria" required>
+                            <option value="">Selecione...</option>
+                            <option value="1"> Litoral e praias</option>
+                            <option value="2"> Montanhas e serras</option>
+                            <option value="3"> Cidades históricas</option>
+                            <option value="4"> Áreas rurais</option>
+                            <option value="5"> Patrimônio religioso</option>
+                            <option value="6"> Formações geológicas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo_cenario">Tipo de Cenário <span class="required">*</span></label>
+                        <select id="tipo_cenario" name="id_tipo_cenario" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">Praia</option>
+                            <option value="2">Mata Atlântica</option>
+                            <option value="3">Centro Histórico</option>
+                            <option value="4">Rural/Fazenda</option>
+                            <option value="5">Urbano Moderno</option>
+                            <option value="6">Religioso</option>
+                            <option value="7">Industrial</option>
+                            <option value="8">Natural/Selvagem</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 2: LOCALIZAÇÃO -->
+                <div class="section-title" style="margin-top: 50px;">📍 Localização</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cidade">Cidade <span class="required">*</span></label>
+                        <select id="cidade" name="id_cidade" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">Vitória</option>
+                            <option value="2">Vila Velha</option>
+                            <option value="3">Serra</option>
+                            <option value="4">Guarapari</option>
+                            <option value="5">Domingos Martins</option>
+                            <option value="6">Santa Teresa</option>
+                            <option value="7">Anchieta</option>
+                            <option value="8">Conceição da Barra</option>
+                            <option value="9">Itaúnas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endereco">Endereço Completo</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, CEP">
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div>
+                        <strong>Coordenadas GPS:</strong> Use o Google Maps para obter coordenadas precisas. Clique com botão direito no local e copie as coordenadas.
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude">Latitude <span class="hint">(ex: -20.3155)</span></label>
+                        <input type="text" id="latitude" name="latitude" placeholder="-20.3155" pattern="-?\d+\.?\d*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longitude">Longitude <span class="hint">(ex: -40.3128)</span></label>
+                        <input type="text" id="longitude" name="longitude" placeholder="-40.3128" pattern="-?\d+\.?\d*">
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 3: CARACTERÍSTICAS TÉCNICAS -->
+                <div class="section-title" style="margin-top: 50px;"> Características Técnicas</div>
+
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="capacidade">Capacidade (pessoas)</label>
+                        <input type="number" id="capacidade" name="capacidade_pessoas" min="0" placeholder="Ex: 50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area">Área (m²)</label>
+                        <input type="number" id="area" name="area_m2" step="0.01" min="0" placeholder="Ex: 150.50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pe_direito">Pé-Direito (m)</label>
+                        <input type="number" id="pe_direito" name="altura_pe_direito" step="0.01" min="0" placeholder="Ex: 3.5">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taxa">Taxa de Locação (R$) <span class="hint">(deixe vazio se gratuito)</span></label>
+                        <input type="number" id="taxa" name="taxa_locacao" step="0.01" min="0" placeholder="Ex: 500.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="moeda">Moeda</label>
+                        <select id="moeda" name="moeda">
+                            <option value="BRL" selected>BRL - Real Brasileiro</option>
+                            <option value="USD">USD - Dólar Americano</option>
+                            <option value="EUR">EUR - Euro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 4: FILTROS INTELIGENTES -->
+                <div class="section-title" style="margin-top: 50px;"> Filtros Inteligentes</div>
+
+                <div class="info-box">
+                    <div>Estas informações ajudam cineastas a encontrar a locação ideal rapidamente através dos filtros de busca da plataforma.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Acesso ao Local</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="publico_sim" name="publico" value="1" checked>
+                            <label for="publico_sim"> Local Público</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="publico_nao" name="publico" value="0">
+                            <label for="publico_nao"> Local Privado</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Área de Preservação Ambiental</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="preservacao_sim" name="area_preservacao" value="1">
+                            <label for="preservacao_sim"> Sim, é área protegida</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="preservacao_nao" name="area_preservacao" value="0" checked>
+                            <label for="preservacao_nao"> Não é área protegida</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Autorização para Gravação</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="autorizacao_sim" name="necessita_autorizacao" value="1">
+                            <label for="autorizacao_sim"> Necessita autorização prévia</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="autorizacao_nao" name="necessita_autorizacao" value="0" checked>
+                            <label for="autorizacao_nao"> Não necessita autorização</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 5: CARACTERÍSTICAS DISPONÍVEIS -->
+                <div class="section-title" style="margin-top: 50px;"> Características e Facilidades</div>
+
+                <div class="info-box">
+                    <div>Marque todas as características e facilidades disponíveis na locação.</div>
+                </div>
+
+                <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac1" name="caracteristicas[]" value="1">
+                        <label for="carac1"> Estacionamento</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac2" name="caracteristicas[]" value="2">
+                        <label for="carac2"> Energia Elétrica</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac3" name="caracteristicas[]" value="3">
+                        <label for="carac3"> Acesso p/ Caminhões</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac4" name="caracteristicas[]" value="4">
+                        <label for="carac4"> Internet/Wi-Fi</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac5" name="caracteristicas[]" value="5">
+                        <label for="carac5"> Banheiros</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac6" name="caracteristicas[]" value="6">
+                        <label for="carac6"> Área Coberta</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac7" name="caracteristicas[]" value="7">
+                        <label for="carac7"> Iluminação Natural</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac8" name="caracteristicas[]" value="8">
+                        <label for="carac8"> Local Silencioso</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac9" name="caracteristicas[]" value="9">
+                        <label for="carac9"> Acessibilidade</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carac10" name="caracteristicas[]" value="10">
+                        <label for="carac10"> Segurança 24h</label>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 6: CONTATO DO RESPONSÁVEL -->
+                <div class="section-title" style="margin-top: 50px;"> Responsável pela Locação</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resp_nome">Nome Completo <span class="required">*</span></label>
+                        <input type="text" id="resp_nome" name="responsavel_nome" required placeholder="Nome do responsável">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resp_cargo">Cargo/Função</label>
+                        <input type="text" id="resp_cargo" name="responsavel_cargo" placeholder="Ex: Proprietário, Gestor, Coordenador">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resp_email">E-mail <span class="required">*</span></label>
+                        <input type="email" id="resp_email" name="responsavel_email" required placeholder="email@exemplo.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resp_telefone">Telefone/WhatsApp <span class="required">*</span></label>
+                        <input type="tel" id="resp_telefone" name="responsavel_telefone" required placeholder="(27) 99999-9999">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resp_whatsapp">WhatsApp Adicional <span class="hint">(opcional)</span></label>
+                    <input type="tel" id="resp_whatsapp" name="responsavel_whatsapp" placeholder="(27) 98888-8888">
+                </div>
+
+                <!-- SEÇÃO 7: HORÁRIOS DE FUNCIONAMENTO -->
+                <div class="section-title" style="margin-top: 50px;">🕐 Horários de Funcionamento</div>
+
+                <div class="info-box">
+                    <div>Informe os horários em que a locação está disponível para filmagens. Deixe em branco se disponível 24h.</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="horario_abertura">Horário de Abertura</label>
+                        <input type="time" id="horario_abertura" name="horario_abertura">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horario_fechamento">Horário de Fechamento</label>
+                        <input type="time" id="horario_fechamento" name="horario_fechamento">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="obs_horario">Observações sobre Horários</label>
+                    <textarea id="obs_horario" name="observacoes_horario" rows="3" placeholder="Ex: Funciona apenas de segunda a sexta, fechado aos domingos, etc."></textarea>
+                </div>
+
+                <!-- SEÇÃO 8: RESTRIÇÕES -->
+                <div class="section-title" style="margin-top: 50px;">⚠️ Restrições e Limitações</div>
+
+                <div class="form-group">
+                    <label for="restricao_tipo">Tipo de Restrição</label>
+                    <select id="restricao_tipo" name="restricao_tipo">
+                        <option value="">Nenhuma restrição</option>
+                        <option value="som">Restrição de Som/Ruído</option>
+                        <option value="iluminacao">Restrição de Iluminação</option>
+                        <option value="seguranca">Restrições de Segurança</option>
+                        <option value="acesso">Restrições de Acesso</option>
+                        <option value="equipamentos">Restrição de Equipamentos</option>
+                        <option value="horario">Restrição de Horário</option>
+                        <option value="ambiental">Restrições Ambientais</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="restricao_desc">Descrição das Restrições</label>
+                    <textarea id="restricao_desc" name="restricao_descricao" rows="4" placeholder="Descreva detalhadamente qualquer restrição ou limitação para filmagens nesta locação..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="restricao_nivel">Nível de Restrição</label>
+                    <select id="restricao_nivel" name="restricao_nivel">
+                        <option value="">Selecione...</option>
+                        <option value="baixa">Baixa - Flexível</option>
+                        <option value="media">Média - Requer cuidados</option>
+                        <option value="alta">Alta - Muitas limitações</option>
+                    </select>
+                </div>
+
+                <!-- SEÇÃO 9: IMAGENS -->
+                <div class="section-title" style="margin-top: 50px;">📸 Galeria de Imagens</div>
+
+                <div class="info-box">
+                    <div><strong>Importante:</strong> Envie fotos de alta qualidade que mostrem diferentes ângulos e características da locação. Recomendamos no mínimo 5 fotos.</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="image-upload" onclick="document.getElementById('imagens').click()">
+                        <p style="font-size: 4em; margin-bottom: 15px;">📷</p>
+                        <p style="font-weight: 700; font-size: 1.2em; margin-bottom: 8px;">Clique para adicionar imagens</p>
+                        <p style="font-size: 0.95em; color: #666;">
